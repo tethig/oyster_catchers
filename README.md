@@ -30,3 +30,13 @@ OK, super - I have created a set of python scripts that call each other. Run the
 python server.py
 ```
 A web page should open giving an interactive simulation session.
+
+# Icons
+
+<a href="https://icons8.com">Icon pack by Icons8</a>
+
+Bird:
+https://icons8.com/icon/50494/bird
+
+Shellfish:
+https://icons8.com/icon/37550/shellfish
