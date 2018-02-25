@@ -30,10 +30,9 @@ def wolf_sheep_portrayal(agent):
         if agent.fully_grown:
             portrayal["Color"] = "#00FF00"
         else:
+            # verdancy = int( round( agent.countdown / ( agent.model.grass_regrowth_time / 3 ), 0 ) )
             portrayal["Color"] = "#d6f5d6"
-        #else:
-        #    verdancy = int( round( agent.countdown / ( agent.model.grass_regrowth_time / 3 ), 0 ) )
-        #    portrayal["Color"] = ["#00CC00", "#009900", "#84e184", "#adebad"][verdancy]
+            # portrayal["Color"] = ["#adebad", "#84e184", "#009900", "#00CC00"][verdancy]
         portrayal["Shape"] = "rect"
         portrayal["Filled"] = "true"
         portrayal["Layer"] = 0
