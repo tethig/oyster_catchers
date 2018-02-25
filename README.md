@@ -36,12 +36,10 @@ A web page should open giving an interactive simulation session.
 
 <a href="https://icons8.com">Icon pack by Icons8</a>
 
-![Image](../blob/master/resources/bird.png?raw=true)
-Format: ![Alt Text](url)
+![Image](../master/resources/bird.png?raw=true)
 
 [Link for Bird Image](https://icons8.com/icon/50494/bird)
 
-![Image](../blob/master/resources/limpet.png?raw=true)
-Format: ![Alt Text](url)
+![Image](../master/resources/limpet.png?raw=true)
 
 [Link for Shellfish Image](https://icons8.com/icon/37550/shellfish)
