@@ -3,13 +3,13 @@
 ## Pre-amble
 I discovered the *mesa* library via [this blog post](https://dadaromeo.github.io/posts/mesa-a-library-for-agent-based-modeling-in-python/). My conda notes, which can be used to help with installation issues [are here](https://github.com/tethig/turbo-spoon/blob/master/(Ana)conda.md). Please note that the wolf-sheep folder is modified from the mesa examples folder.
 
-## Introductory tutorial
+## Introductory Tutorial
 Mesa's own intoductory tutorial [is linked here](http://mesa.readthedocs.io/en/latest/tutorials/intro_tutorial.html).
 
 ## Requirements
 The above tutorial references [this list of requirements](https://github.com/projectmesa/mesa/blob/master/examples/boltzmann_wealth_model/requirements.txt).
 
-## Create the mesa environment
+## Create the Mesa Environment
 To build the environment for mesa:
 ```
 conda create -n mesa jupyter matplotlib numpy
@@ -19,7 +19,7 @@ conda env export -n mesa > environment.yml
 ```
 Note that pip also installed pandas and tqdm.
 
-## Separate scripts
+## Separate Scripts
 OK, super - I have created a set of python scripts that call each other. Run the server.py script to instantiate a simulation that you can view as it runs:
 
 ```
@@ -27,22 +27,23 @@ python server.py
 ```
 A web page should open giving an interactive simulation session.
 
-## Wolf-sheep run with mesa
+## Wolf-sheep Run with Mesa
 The wolf-sheep scripts would make a better starting point for my simulation. Let's contrast with Netlogo:
 
-Model: sheep-wolves-grass
-Initial sheep #: 100
-Initial wolf #: 50
-Grass regrowth time: 30
-Sheep gain from food: 4
-Sheep reproduce: 4%
-Wolf gain from food: 20
-Wolf reproduce: 5%
-World: torus 51X51
+Model | sheep-wolves-grass
+------|-------------------
+Initial sheep number | 100
+Initial wolf number | 50
+Grass regrowth time | 30
+Sheep gain from food | 4
+Sheep reproduce | 4%
+Wolf gain from food | 20
+Wolf reproduce | 5%
+World | torus 51 X 51
 
-I note similar dynamics when world size is increased in mesa model. Previously I had observed unstable dynamics - I realise these are limited to the 20 by 20 defaults of the mesa wolf-sheep-grass model. Additional issues: the grass is black! I believe I previously observed revenant wolves - but I cannot recapitulate that behaviour presently.
+I note similar dynamics when world size is increased in mesa model (from default 20 by 20). Previously I had observed unstable dynamics with mesa's default world size. Additional issues: the grass is black! I believe I previously observed revenant wolves (recovering from extinction)- but I cannot recapitulate that behaviour.
 
-## Issue with Grass
+## Bug-fixing the Grass
 I have fixed the grass colour issue in my fork of mesa repo. I have [raised a ticket](https://github.com/projectmesa/mesa/issues/474) and sought advice from mesa developers to ensure compliance with their rules.
 
 Meanwhile I will run test. Extra libraries:
@@ -89,7 +90,6 @@ OK
 I don't understand nose test results yet. I have addressed the flake8 errors now.
 
 ## Icons
-
 <a href="https://icons8.com">Icon pack by Icons8</a>
 
 ![Image](../master/resources/bird.png?raw=true)
