@@ -15,7 +15,7 @@ from mesa import Model
 from mesa.space import MultiGrid
 from mesa.datacollection import DataCollector
 
-from wolf_sheep.agents import Sheep, Wolf, GrassPatch
+from wolf_sheep.agents import OysterCatcher, GrassPatch
 from wolf_sheep.schedule import RandomActivationByBreed
 
 
@@ -27,77 +27,57 @@ class WolfSheepPredation(Model):
     height = 20
     width = 20
 
-    initial_sheep = 100
-    initial_wolves = 50
+    initial_oystercatchers = 100
 
-    sheep_reproduce = 0.04
-    wolf_reproduce = 0.05
-
-    wolf_gain_from_food = 20
+    oystercatcher_reproduce = 0.04
 
     grass = False
     grass_regrowth_time = 30
-    sheep_gain_from_food = 4
+    oystercatcher_gain_from_food = 4
 
     verbose = False  # Print-monitoring
 
     description = 'A model for simulating wolf and sheep (predator-prey) ecosystem modelling.'
 
     def __init__(self, height=20, width=20,
-                 initial_sheep=100, initial_wolves=50,
-                 sheep_reproduce=0.04, wolf_reproduce=0.05,
-                 wolf_gain_from_food=20,
-                 grass=False, grass_regrowth_time=30, sheep_gain_from_food=4):
+                 initial_oystercatchers=100,
+                 oystercatcher_reproduce=0.04,
+                 grass=False, grass_regrowth_time=30, oystercatcher_gain_from_food=4):
         '''
         Create a new Wolf-Sheep model with the given parameters.
 
         Args:
-            initial_sheep: Number of sheep to start with
-            initial_wolves: Number of wolves to start with
-            sheep_reproduce: Probability of each sheep reproducing each step
-            wolf_reproduce: Probability of each wolf reproducing each step
-            wolf_gain_from_food: Energy a wolf gains from eating a sheep
+            initial_oystercatchers: Number of sheep to start with
+            oystercatcher_reproduce: Probability of each sheep reproducing each step
             grass: Whether to have the sheep eat grass for energy
             grass_regrowth_time: How long it takes for a grass patch to regrow
                                  once it is eaten
-            sheep_gain_from_food: Energy sheep gain from grass, if enabled.
+            oystercatcher_gain_from_food: Energy sheep gain from grass, if enabled.
         '''
 
         # Set parameters
         self.height = height
         self.width = width
-        self.initial_sheep = initial_sheep
-        self.initial_wolves = initial_wolves
-        self.sheep_reproduce = sheep_reproduce
-        self.wolf_reproduce = wolf_reproduce
-        self.wolf_gain_from_food = wolf_gain_from_food
+        self.initial_oystercatchers = initial_oystercatchers
+        self.oystercatcher_reproduce = oystercatcher_reproduce
         self.grass = grass
         self.grass_regrowth_time = grass_regrowth_time
-        self.sheep_gain_from_food = sheep_gain_from_food
+        self.oystercatcher_gain_from_food = oystercatcher_gain_from_food
 
         self.schedule = RandomActivationByBreed(self)
         self.grid = MultiGrid(self.height, self.width, torus=True)
         self.datacollector = DataCollector(
-            {"Wolves": lambda m: m.schedule.get_breed_count(Wolf),
-             "Sheep": lambda m: m.schedule.get_breed_count(Sheep)})
+            {"OysterCatcher": lambda m: m.schedule.get_breed_count(OysterCatcher),
+            "Grass": lambda m: m.schedule.get_breed_count(GrassPatch)})
 
         # Create sheep:
-        for i in range(self.initial_sheep):
+        for i in range(self.initial_oystercatchers):
             x = random.randrange(self.width)
             y = random.randrange(self.height)
-            energy = random.randrange(2 * self.sheep_gain_from_food)
-            sheep = Sheep((x, y), self, True, energy)
-            self.grid.place_agent(sheep, (x, y))
-            self.schedule.add(sheep)
-
-        # Create wolves
-        for i in range(self.initial_wolves):
-            x = random.randrange(self.width)
-            y = random.randrange(self.height)
-            energy = random.randrange(2 * self.wolf_gain_from_food)
-            wolf = Wolf((x, y), self, True, energy)
-            self.grid.place_agent(wolf, (x, y))
-            self.schedule.add(wolf)
+            energy = random.randrange(2 * self.oystercatcher_gain_from_food)
+            oystercatcher = OysterCatcher((x, y), self, True, energy)
+            self.grid.place_agent(oystercatcher, (x, y))
+            self.schedule.add(oystercatcher)
 
         # Create grass patches
         if self.grass:
@@ -123,23 +103,23 @@ class WolfSheepPredation(Model):
         self.datacollector.collect(self)
         if self.verbose:
             print([self.schedule.time,
-                   self.schedule.get_breed_count(Wolf),
-                   self.schedule.get_breed_count(Sheep)])
+                self.schedule.get_breed_count(OysterCatcher),
+                self.schedule.get_breed_count(GrassPatch)])
 
     def run_model(self, step_count=200):
 
         if self.verbose:
-            print('Initial number wolves: ',
-                  self.schedule.get_breed_count(Wolf))
+            print('Initial number limpets: ',
+                self.schedule.get_breed_count(GrassPatch))
             print('Initial number sheep: ',
-                  self.schedule.get_breed_count(Sheep))
+                self.schedule.get_breed_count(OysterCatcher))
 
         for i in range(step_count):
             self.step()
 
         if self.verbose:
             print('')
-            print('Final number wolves: ',
-                  self.schedule.get_breed_count(Wolf))
+            print('Final number limpets: ',
+                self.schedule.get_breed_count(GrassPatch))
             print('Final number sheep: ',
-                  self.schedule.get_breed_count(Sheep))
+                self.schedule.get_breed_count(OysterCatcher))
