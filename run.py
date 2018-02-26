@@ -1,5 +1,3 @@
-#!/usr/bin/env python
+from oyster_catchers.server import server
 
-from server import server
-server.port = 8521 # The default
 server.launch()

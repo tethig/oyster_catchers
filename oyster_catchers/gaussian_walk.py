@@ -2,11 +2,11 @@
 Generalized behavior for random walking, one grid cell at a time.
 '''
 
+# Import modules
 import random
-
 from mesa import Agent
 
-
+# Agent class
 class RandomWalker(Agent):
     '''
     Parent class for moving agent.

@@ -1,26 +1,25 @@
+# Import modules
 import random
-
 from mesa import Agent
+from oyster_catchers.gaussian_walk import RandomWalker
 
-from wolf_sheep.gaussian_walk import RandomWalker
-
-
+# Agent classes
 class OysterCatcher(RandomWalker):
     '''
-    An oystercatcher that walks around, reproduces (asexually) and gets eaten.
-
+    An oystercatcher that walks around and reproduces asexually.
     The init is the same as the RandomWalker.
     '''
 
     energy = None
 
     def __init__(self, pos, model, sigma=2, energy=None):
-        super().__init__(pos, model, sigma=2) # do I need sigma=2?
+        super().__init__(pos, model)
+        self.sigma = sigma
         self.energy = energy
 
     def step(self):
         '''
-        A model step. Move, then eat grass and reproduce.
+        A model step. Move, then eat limpet and reproduce.
         '''
         self.gaussian_move()
         living = True
@@ -28,16 +27,17 @@ class OysterCatcher(RandomWalker):
         # Reduce energy
         self.energy -= 1
 
-        # If there is grass available, eat it
+        # If there is a limpet available, eat it
         this_cell = self.model.grid.get_cell_list_contents([self.pos])
-        grass_patch = [obj for obj in this_cell
-                       if isinstance(obj, GrassPatch)][0]
-        if grass_patch.fully_grown:
-            self.energy += self.model.oystercatcher_gain_from_food
-            grass_patch.fully_grown = False
+        limpets = [obj for obj in this_cell if isinstance(obj, Limpet)]
+        if len(limpets) > 0:
+            limpet_to_eat = random.choice(limpets)
+            if limpet_to_eat.fully_grown:
+                self.energy += self.model.oystercatcher_gain_from_food
+                limpet_to_eat.fully_grown = False
 
         # Death
-        if self.energy < 0:
+        if self.energy <= 0: # was previous less than only
             self.model.grid._remove_agent(self.pos, self)
             self.model.schedule.remove(self)
             living = False
@@ -49,18 +49,17 @@ class OysterCatcher(RandomWalker):
             self.model.grid.place_agent(chick, self.pos)
             self.model.schedule.add(chick)
 
-class GrassPatch(Agent):
+class Limpet(Agent):
     '''
-    A patch of grass that grows at a fixed rate and it is eaten by oystercatcher
+    A limpet that grows at a fixed rate and it is eaten by oystercatcher
     '''
 
     def __init__(self, pos, model, fully_grown, countdown):
         '''
-        Creates a new patch of grass
-
+        Creates a new limpet
         Args:
-            grown: (boolean) Whether the patch of grass is fully grown or not
-            countdown: Time for the patch of grass to be fully grown again
+            grown: (boolean) Whether the limpet is fully grown or not
+            countdown: Time for the limpet to be fully grown again
         '''
         super().__init__(pos, model)
         self.fully_grown = fully_grown
@@ -71,6 +70,6 @@ class GrassPatch(Agent):
             if self.countdown <= 0:
                 # Set as fully grown
                 self.fully_grown = True
-                self.countdown = self.model.grass_regrowth_time
+                self.countdown = self.model.limpet_regrowth_time
             else:
                 self.countdown -= 1

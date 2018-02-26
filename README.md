@@ -12,12 +12,11 @@ The above tutorial references [this list of requirements](https://github.com/pro
 ## Create the Mesa Environment
 To build the environment for mesa:
 ```
-conda create -n mesa jupyter matplotlib numpy
+conda create -n mesa python=3.6
 conda activate mesa
-pip install mesa
+pip install -r requirements.txt
 conda env export -n mesa > environment.yml
 ```
-Note that pip also installed pandas and tqdm.
 
 ## Separate Scripts
 OK, super - I have created a set of python scripts that call each other. Run the server.py script to instantiate a simulation that you can view as it runs:
