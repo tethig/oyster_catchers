@@ -3,7 +3,7 @@ from mesa.visualization.ModularVisualization import ModularServer
 from mesa.visualization.modules import CanvasGrid, ChartModule
 from mesa.visualization.UserParam import UserSettableParameter
 
-from oyster_catchers.agents import OysterCatcher, Limpet
+from oyster_catchers.agents import OysterCatcher, Limpet 
 from oyster_catchers.model import OysterCatcherForaging
 
 
